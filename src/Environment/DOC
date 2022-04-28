@@ -1,0 +1,64 @@
+BNN's are a neural network with dimensions (2,3,1) and 16 stored biases.
+
+The biases are stored in arraylists
+{
+{ [3], [1] },
+{ [3], [1] },
+{ [3], [1] },
+{ [3], [1] },
+{ [3], [1] },
+
+{ [3], [1] },
+{ [3], [1] },
+{ [3], [1] },
+{ [3], [1] },
+
+{ [3], [1] },
+{ [3], [1] },
+{ [3], [1] },
+{ [3], [1] },
+
+{ [3], [1] },
+{ [3], [1] },
+{ [3], [1] },
+{ [3], [1] },
+}
+
+where a single bias is { [3], [1] }
+
+Each bias { [3], [1] }, represents a boolean logic gate.
+A boolean logic gates takes 2 logic values and return 1 logic value deterministically.
+The domain { -1,1 } is used for representing true and false.
+The 16 biases comes naturally from the combinatorics of boolean logic gates.
+4 possible inputs
+[-1,-1 ]
+[-1, 1 ]
+[ 1,-1 ]
+[ 1, 1 ]
+
+16 possible output spaces
+[-1,-1,-1,-1 ]
+[-1,-1,-1, 1 ]
+[-1,-1, 1,-1 ]
+[-1,-1, 1, 1 ]
+
+[-1, 1,-1,-1 ]
+[-1, 1,-1, 1 ]
+[-1, 1, 1,-1 ]
+[-1, 1, 1, 1 ]
+
+[ 1,-1,-1,-1 ]
+[ 1,-1,-1, 1 ]
+[ 1,-1, 1,-1 ]
+[ 1,-1, 1, 1 ]
+
+[ 1, 1,-1,-1 ]
+[ 1, 1,-1, 1 ]
+[ 1, 1, 1,-1 ]
+[ 1, 1, 1, 1 ]
+
+--Notes
+Often when fully trained the bias for the output layers is constant or +/- constant for each boolean logic gate.
+
+Often when training from same initialization for the biases,
+the position of individual boolean logic gates maintain approximate symmetry.
