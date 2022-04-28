@@ -61,9 +61,9 @@ public abstract class BNNVizualizer extends Canvas implements Runnable {
             while(delta >= 1) {
                 update();
                 delta--;
+                render();
+                frames++;
             }
-            render();
-            frames++;
 
             if(System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;

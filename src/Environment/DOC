@@ -62,3 +62,11 @@ Often when fully trained the bias for the output layers is constant or +/- const
 
 Often when training from same initialization for the biases,
 the position of individual boolean logic gates maintain approximate symmetry.
+
+The success rate of training cannot be measured accurately by taking averages over training error.
+Rather count times training error falls below a certain threshold.
+This is because success rate of training is determined mostly by the local minima
+in the learning space.
+exp proof. --
+0.05 yields lowest average error
+0.1 yields highest success rate for learning

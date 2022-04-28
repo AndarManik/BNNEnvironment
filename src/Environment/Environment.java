@@ -110,14 +110,12 @@ public class Environment {
 
         System.out.println("[biases] [error]");
         String userInput = sc.nextLine();
-        System.out.println("Enter print count");
-        int count = Integer.parseInt(sc.nextLine());
         switch(userInput) {
             case "biases":
                 bnn.printBiases();
                 break;
             case "error":
-                bnn.printError(count);
+                bnn.printError();
                 break;
         }
     }
@@ -167,9 +165,32 @@ public class Environment {
     }
 
     public void trainExperiment() {
+        int numberOfSamples = 20;
+        double minLearningRate = 0.01;
+        double maxLearningRate = 0.08;
+        int numberOfTrainingTests = 100;
+        double epocMag = 5;
+        double threshold = 0.3;
 
+        double[][] samples = new double[numberOfSamples][2];
+        double minLog = Math.log(minLearningRate);
+        double maxLog = Math.log(maxLearningRate);
+        for (int i = 0; i < numberOfSamples; i++) {
+            double interpolationRatio = 1.0 * i / numberOfSamples;
+            double interpolation = (1-interpolationRatio) * minLog + (interpolationRatio) * maxLog;
+            double interpolatedLearningRate = Math.exp(interpolation);
 
-
+            double sumOfError = 0;
+            for (int j = 0; j < numberOfTrainingTests; j++)
+                sumOfError += (new BNN().
+                        learn(epocMag, interpolatedLearningRate).
+                        computeError() < threshold) ?
+                        1 :
+                        0;
+            samples[i][0] = sumOfError / numberOfTrainingTests;
+            samples[i][1] = interpolatedLearningRate;
+            System.out.println(samples[i][0] + " " + samples[i][1]);
+        }
 
     }
 }

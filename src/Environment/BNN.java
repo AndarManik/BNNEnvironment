@@ -1,8 +1,6 @@
 package Environment;
 
-import Environment.Vizualizer.BNN3DPoint;
 import Environment.Vizualizer.BNNBiasVizualizer;
-import Environment.Vizualizer.BNNVizualizer;
 import NeuralNetwork.BiasManager;
 
 import java.util.ArrayList;
@@ -21,12 +19,13 @@ public class BNN extends BiasManager {
         load(scanner);
     }
 
-    public void learn(double epocMag, double rate) {
+    public BNN learn(double epocMag, double rate) {
         for (int epoc = 0; epoc < Math.pow(10, epocMag); epoc++) {
             singlePass(epoc % 16);
             if (epoc % 16 == 15)
                 update(rate);
         }
+        return this;
     }
 
     private void singlePass(int task) {
@@ -58,7 +57,10 @@ public class BNN extends BiasManager {
         new BNNBiasVizualizer(this, animationSpeed, animationLength);
     }
 
-    public void printError(int count) {
+    public void printError() {
+        System.out.println("Enter print count");
+        Scanner sc = new Scanner(System.in);
+        int count = Integer.parseInt(sc.nextLine());
         int modulus = BNNHistory.size() / count;
         int counter = 0;
         for (BNNData bnnData : BNNHistory)
