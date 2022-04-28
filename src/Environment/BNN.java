@@ -53,8 +53,10 @@ public class BNN extends BiasManager {
         double animationSpeed = Double.parseDouble(sc.nextLine());
         System.out.println("Enter animation length");
         double animationLength = Double.parseDouble(sc.nextLine());
+        System.out.println("Enter scale");
+        double scale = Double.parseDouble(sc.nextLine());
 
-        new BNNBiasVizualizer(this, animationSpeed, animationLength);
+        new BNNBiasVizualizer(this, animationSpeed, animationLength, scale);
     }
 
     public void printError() {

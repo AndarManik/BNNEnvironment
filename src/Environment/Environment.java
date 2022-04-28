@@ -17,33 +17,16 @@ public class Environment {
         System.out.println("Enter Command");
         System.out.println("[load] [save] [train] [create] [analyze] [create train] [remove] [train experiment] [exit]");
         String userInput = sc.nextLine();
-        switch(userInput) {
-            case "load":
-                loadBNNtoList();
-                break;
-            case "save":
-                saveBNNfromList();
-                break;
-            case "train":
-                trainBNNFromList();
-                break;
-            case "create":
-                createBNNtoList();
-                break;
-            case "analyze":
-                analyzeBNNfromList();
-                break;
-            case "create train":
-                createTrainBNNtoList();
-                break;
-            case "remove":
-                removeBNNsfromList();
-                break;
-            case "train experiment":
-                trainExperiment();
-                break;
-            case "exit":
-                System.exit(0);
+        switch (userInput) {
+            case "load" -> loadBNNtoList();
+            case "save" -> saveBNNfromList();
+            case "train" -> trainBNNFromList();
+            case "create" -> createBNNtoList();
+            case "analyze" -> analyzeBNNfromList();
+            case "create train" -> createTrainBNNtoList();
+            case "remove" -> removeBNNsfromList();
+            case "train experiment" -> trainExperiment();
+            case "exit" -> System.exit(0);
         }
         cycle();
     }
@@ -55,8 +38,7 @@ public class Environment {
         Scanner fileScanner;
         try {
             fileScanner = new Scanner(new File("/Users/user/Documents/IDEA Projects/BNNEnvironment/src/Environment/BNN/" + fileName + ".txt"));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("loadBNNtoList " + e);
             return;
         }
@@ -64,28 +46,25 @@ public class Environment {
         bnnList.add(new BNN(fileScanner));
     }
 
-    void saveBNNfromList(){
+    void saveBNNfromList() {
         System.out.println("Enter BNN index");
         int bnnIndex = Integer.parseInt(sc.nextLine());
         System.out.println("Enter file name");
         String fileName = sc.nextLine();
 
-        try
-        {
-            File file = new File("/Users/user/Documents/IDEA Projects/BNNEnvironment/src/Environment/BNN/" + fileName +".txt");
+        try {
+            File file = new File("/Users/user/Documents/IDEA Projects/BNNEnvironment/src/Environment/BNN/" + fileName + ".txt");
             file.createNewFile();
 
             FileWriter fileWriter = new FileWriter(file.getAbsolutePath());
 
             bnnList.get(bnnIndex).save(fileWriter);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("saveBNNfromList " + e);
         }
     }
 
-    void trainBNNFromList(){
+    void trainBNNFromList() {
         System.out.println("Enter BNN index");
         int bnnIndex = Integer.parseInt(sc.nextLine());
         BNN bnn = bnnList.get(bnnIndex);
@@ -99,7 +78,7 @@ public class Environment {
         bnn.learn(epocMag, rate);
     }
 
-    void createBNNtoList(){
+    void createBNNtoList() {
         bnnList.add(new BNN());
     }
 
@@ -110,7 +89,7 @@ public class Environment {
 
         System.out.println("[biases] [error]");
         String userInput = sc.nextLine();
-        switch(userInput) {
+        switch (userInput) {
             case "biases":
                 bnn.printBiases();
                 break;
@@ -120,7 +99,7 @@ public class Environment {
         }
     }
 
-    public void createTrainBNNtoList(){
+    public void createTrainBNNtoList() {
         int startIndex = bnnList.size();
         System.out.println("Enter how many BNN's to create");
         int bnnCount = Integer.parseInt(sc.nextLine());
@@ -134,25 +113,24 @@ public class Environment {
         System.out.println("Enter cutOff value");
         double cutOff = Double.parseDouble(sc.nextLine());
 
-        for (int counter = 0; counter < bnnCount;) {
+        for (int counter = 0; counter < bnnCount; ) {
             createBNNtoList();
             int curIndex = startIndex + counter;
             bnnList.get(curIndex).learn(epocMag, rate);
-            if(bnnList.get(curIndex).computeError() > cutOff) {
+            if (bnnList.get(curIndex).computeError() > cutOff) {
                 System.out.println(bnnList.get(curIndex));
                 bnnList.remove(curIndex);
 
-            }
-            else
+            } else
                 counter++;
         }
     }
 
-    public void removeBNNsfromList(){
+    public void removeBNNsfromList() {
         System.out.println("Enter start index or -1 for clearing all bnn");
         int startIndex = Integer.parseInt(sc.nextLine());
         int endIndex = -2;
-        if(startIndex != -1) {
+        if (startIndex != -1) {
             System.out.println("Enter end index");
             endIndex = Integer.parseInt(sc.nextLine());
         }
@@ -160,7 +138,7 @@ public class Environment {
         for (int i = startIndex; i <= endIndex; i++)
             bnnList.remove(startIndex);
 
-        if(startIndex == -1)
+        if (startIndex == -1)
             bnnList = new ArrayList<>();
     }
 
@@ -177,7 +155,7 @@ public class Environment {
         double maxLog = Math.log(maxLearningRate);
         for (int i = 0; i < numberOfSamples; i++) {
             double interpolationRatio = 1.0 * i / numberOfSamples;
-            double interpolation = (1-interpolationRatio) * minLog + (interpolationRatio) * maxLog;
+            double interpolation = (1 - interpolationRatio) * minLog + (interpolationRatio) * maxLog;
             double interpolatedLearningRate = Math.exp(interpolation);
 
             double sumOfError = 0;

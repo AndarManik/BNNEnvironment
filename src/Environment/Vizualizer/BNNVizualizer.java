@@ -12,9 +12,9 @@ public abstract class BNNVizualizer extends Canvas implements Runnable {
     public static final int HEIGHT = 600;
     private static boolean running = false;
 
-    public BNNVizualizer(String title){
+    public BNNVizualizer(String title) {
         jFrame = new JFrame();
-        Dimension size = new Dimension(WIDTH,HEIGHT);
+        Dimension size = new Dimension(WIDTH, HEIGHT);
         setPreferredSize(size);
         this.title = title;
 
@@ -39,8 +39,7 @@ public abstract class BNNVizualizer extends Canvas implements Runnable {
         running = false;
         try {
             thread.join();
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -54,18 +53,18 @@ public abstract class BNNVizualizer extends Canvas implements Runnable {
         double delta = 0;
         int frames = 0;
 
-        while(running){
+        while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
-            while(delta >= 1) {
+            while (delta >= 1) {
                 update();
                 delta--;
-                render();
-                frames++;
             }
+            render();
+            frames++;
 
-            if(System.currentTimeMillis() - timer > 1000) {
+            if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
                 jFrame.setTitle(title + " | " + frames + " fps");
                 frames = 0;
@@ -75,16 +74,16 @@ public abstract class BNNVizualizer extends Canvas implements Runnable {
         stop();
     }
 
-    private void render(){
+    private void render() {
         BufferStrategy bufferStrategy = this.getBufferStrategy();
-        if(bufferStrategy == null){
+        if (bufferStrategy == null) {
             this.createBufferStrategy(3);
             return;
         }
 
         Graphics graphics = bufferStrategy.getDrawGraphics();
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(0,0,WIDTH * 2, HEIGHT * 2);
+        graphics.fillRect(0, 0, WIDTH * 2, HEIGHT * 2);
 
         graphics.setColor(Color.WHITE);
         graphics = toRender(graphics);
